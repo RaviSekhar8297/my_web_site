@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens
+------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --color-ink: #0a1226;
+  --color-ink-soft: #111c3a;
+  --color-muted: #566075;
+  --color-line: #e3e8f0;
+  --color-surface: #f5f7fb;
+
+  --color-brand: #1d4ed8;
+  --color-brand-strong: #1e3a8a;
+  --color-brand-soft: #e8efff;
+}
+
+/* Product accent colours are driven by CSS variables so a single
+   data-product attribute re-themes every descendant component. */
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+}
+
+:root {
+  --accent: #1d4ed8;
+  --accent-strong: #1e3a8a;
+  --accent-soft: #e8efff;
+  --accent-ink: #1e3a8a;
+}
+
+/* Product identities */
+[data-product="hrms"] {
+  --accent: #4f46e5;
+  --accent-strong: #312e81;
+  --accent-soft: #eef0ff;
+  --accent-ink: #3730a3;
+}
+[data-product="vms"] {
+  --accent: #0d9488;
+  --accent-strong: #115e59;
+  --accent-soft: #e5f6f3;
+  --accent-ink: #0f766e;
+}
+[data-product="support"] {
+  --accent: #ea580c;
+  --accent-strong: #9a3412;
+  --accent-soft: #fff0e5;
+  --accent-ink: #c2410c;
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------ */
+@layer base {
+  /* Tailwind v4 defaults borders to currentColor; keep the old neutral default */
+  *,
+  ::after,
+  ::before,
+  ::backdrop {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Utilities
+------------------------------------------------------------------ */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(10 18 38 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 18 38 / 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.mask-fade-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+/* The only entrance animation on the site: a short fade/slide on the hero. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-delay-1 {
+  animation-delay: 0.08s;
+}
+.animate-delay-2 {
+  animation-delay: 0.16s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-fade-up {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
